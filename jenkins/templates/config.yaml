@@ -75,10 +75,12 @@ data:
                   <claimName>jenkins-slave-root-home</claimName>
                   <readOnly>false</readOnly>
                 </org.csanchez.jenkins.plugins.kubernetes.volumes.PersistentVolumeClaim>
+{{- if .Values.configmap.docker.config_json }}
                 <org.csanchez.jenkins.plugins.kubernetes.volumes.ConfigMapVolume>
                   <mountPath>/home/jenkins/.docker</mountPath>
-                  <configMapName>google-container-key</configMapName>
+                  <configMapName>{{ .Values.configmap.docker.config_json }}</configMapName>
                 </org.csanchez.jenkins.plugins.kubernetes.volumes.ConfigMapVolume>
+{{- end }}
               </volumes>
               <containers>
                 <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
