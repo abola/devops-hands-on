@@ -339,11 +339,11 @@ setupService() {
   echo "設定對外服務項目..."
   
   printf "  等待對外IP配發中..."
-  while [ `kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}' | wc -c` -eq 0 ]
+  while [ `kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' | wc -c` -eq 0 ]
   do
     sleep 1
   done  
-  INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' | nslookup | grep Address | tail -n1 | awk -F" " '{print $2}') 
   echo "(IP=$INGRESS_HOST)...完成"
 
   printf "  開啟對外服務中..."
