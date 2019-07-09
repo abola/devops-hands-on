@@ -208,6 +208,7 @@ EOF
     --set Agent.ImageTag=v1 \
     --set Master.AdminPassword=systex \
     --set Master.GoogleProjectId=${GOOGLE_PROJECT_ID} \
+    --set Master.GoogleZone=${GOOGLE_ZONE} \
     --set Master.AwsAccountId=${AWS_ACCOUNT_ID} \
     --set Master.AwsRegion=${AWS_REGION} \
     --set configmap.docker.config_json=docker-registry-key \
@@ -263,8 +264,6 @@ EOF
 
   printf "  安裝 Bookinfo 範例程式 ..."
   kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml > /dev/null 2>&1
-  kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml > /dev/null 2>&1
-  kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml > /dev/null 2>&1 && echo "完成"
 }
 
 installEFK() {
