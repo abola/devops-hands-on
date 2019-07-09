@@ -227,16 +227,18 @@ data:
                 <comparator class="hudson.util.CaseInsensitiveComparator"/>
               </default>
 {{- if .Values.cloud.provider.gcp }}
-              <int>1</int>
+              <int>4</int>
               <string>GOOGLE_PROJECT_ID</string>
               <string>{{ .Values.Master.GoogleProjectId }}</string>
               <string>CLOUD_ID</string>
               <string>{{ .Values.Master.GoogleProjectId }}</string>
               <string>CLOUD_REGION</string>
               <string>{{ .Values.Master.GoogleZone }}</string>
+              <string>CLOUD_REPOSITORY</string>
+              <string>gcr.io/{{ .Values.Master.GoogleProjectId }}/</string>
 {{- end }}
 {{- if .Values.cloud.provider.aws }}
-              <int>2</int>
+              <int>5</int>
               <string>AWS_ACCOUNT_ID</string>
               <string>{{ .Values.Master.AwsAccountId }}</string>
               <string>AWS_REGION</string>
@@ -245,6 +247,8 @@ data:
               <string>{{ .Values.Master.AwsAccountId }}</string>
               <string>CLOUD_REGION</string>
               <string>{{ .Values.Master.AwsRegion }}</string>
+              <string>CLOUD_REPOSITORY</string>
+              <string>{{ .Values.Master.AwsAccountId }}.dkr.ecr.{{ .Values.Master.AwsRegion }}.amazonaws.com/</string>
 {{- end }}
             </tree-map>
           </envVars>
