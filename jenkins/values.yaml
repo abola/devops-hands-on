@@ -20,6 +20,9 @@ configmap:
 # fullnameOverride:
 
 Master:
+  GoogleProjectId:
+  AwsAccountId:
+  AwsRegion:
   Name: jenkins-master
   Image: "jenkins/jenkins"
   ImageTag: "lts"
