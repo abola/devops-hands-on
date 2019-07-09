@@ -3,14 +3,14 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: logging
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: faster
-provisioner: kubernetes.io/gce-pd
-parameters:
-  type: pd-ssd
+#---
+#apiVersion: storage.k8s.io/v1
+#kind: StorageClass
+#metadata:
+#  name: faster
+#provisioner: kubernetes.io/gce-pd
+#parameters:
+#  type: pd-ssd
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -18,7 +18,8 @@ metadata:
   name: elasticsearch-data-pvc
   namespace: logging
 spec:
-  storageClassName: faster
+# GCP only
+#  storageClassName: faster
   accessModes:
     - ReadWriteOnce
   resources:
