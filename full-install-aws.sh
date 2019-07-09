@@ -179,7 +179,7 @@ installJenkins() {
       --role='roles/storage.admin' > /dev/null 2>&1
   gcloud iam service-accounts keys create key.json --iam-account=jenkins-deployer@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com > /dev/null 2>&1
   docker login -u _json_key -p "$(cat key.json)" https://gcr.io  > /dev/null 2>&1
-  kubectl create configmap google-container-key --from-file=.docker/config.json  > /dev/null 2>&1
+  kubectl create configmap docker-registry-key --from-file=.docker/config.json  > /dev/null 2>&1
 
   kubectl create sa jenkins-deployer > /dev/null 2>&1
   kubectl create clusterrolebinding jenkins-deployer-role --clusterrole=cluster-admin --serviceaccount=default:jenkins-deployer > /dev/null 2>&1
@@ -207,12 +207,14 @@ EOF
 
   printf "  正在安裝 jenkins:lts ..."
   helm install --name jenkins \
+    --set cloud.provider.aws=true \
     --set Master.ServiceType=ClusterIP \
     --set Master.K8sAdminCredential=$K8S_ADMIN_CREDENTIAL \
     --set Agent.Image=gcr.io/${GOOGLE_PROJECT_ID}/jnlp-slave \
     --set Agent.ImageTag=v1 \
     --set Master.AdminPassword=systex \
     --set Master.GoogleProjectId=${GOOGLE_PROJECT_ID} \
+    --set configmap.docker.config_json=docker-registry-key \
     devops-hands-on/jenkins > /dev/null 2>&1 && echo "完成"
 }
 
@@ -353,6 +355,7 @@ setupService() {
   helm template --set istio.ingressgateway.ip=$INGRESS_HOST devops-hands-on/svc | kubectl apply -f - > /dev/null 2>&1 && echo "完成"
 }
 
+cd ~
 CURRENT_HOME=$(pwd)
 
 rm -rf ~/.my-env
