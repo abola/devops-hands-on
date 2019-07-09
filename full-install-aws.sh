@@ -170,15 +170,8 @@ installJenkins() {
   echo "安裝 Jenkins ..."
 
   printf "  正在授權 jenkins-deployer..."
-
-  # Google Container Registry 
-  gcloud iam service-accounts create jenkins-deployer > /dev/null 2>&1
-  #gsutil iam ch serviceAccount:jenkins-deployer@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com:admin gs://artifacts.${GOOGLE_PROJECT_ID}.appspot.com/  > /dev/null 2>&1
-  gcloud projects add-iam-policy-binding ${GOOGLE_PROJECT_ID} \
-      --member="serviceAccount:jenkins-deployer@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
-      --role='roles/storage.admin' > /dev/null 2>&1
-  gcloud iam service-accounts keys create key.json --iam-account=jenkins-deployer@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com > /dev/null 2>&1
-  docker login -u _json_key -p "$(cat key.json)" https://gcr.io  > /dev/null 2>&1
+  # get .docker/config_json
+  $(aws ecr get-login --no-include-email --region us-west-2) > /dev/null 2>&1
   kubectl create configmap docker-registry-key --from-file=.docker/config.json  > /dev/null 2>&1
 
   kubectl create sa jenkins-deployer > /dev/null 2>&1
@@ -201,8 +194,9 @@ roleRef:
 EOF
 
   printf "  正在安裝 jenkins-slave ... "
-  printf "build..." && docker build -t gcr.io/${GOOGLE_PROJECT_ID}/jnlp-slave:v1 devops-hands-on/jenkins/slave > /dev/null 2>&1
-  printf "push..." && docker push gcr.io/${GOOGLE_PROJECT_ID}/jnlp-slave:v1 > /dev/null 2>&1
+  printf "create repository..." && aws ecr create-repository --repository-name=jnlp-slave > /dev/null 2>&1
+  printf "build..." && docker build -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/jnlp-slave:v1 devops-hands-on/jenkins/slave > /dev/null 2>&1
+  printf "push..." && docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/jnlp-slave:v1 > /dev/null 2>&1
   echo "完成"
 
   printf "  正在安裝 jenkins:lts ..."
@@ -210,10 +204,12 @@ EOF
     --set cloud.provider.aws=true \
     --set Master.ServiceType=ClusterIP \
     --set Master.K8sAdminCredential=$K8S_ADMIN_CREDENTIAL \
-    --set Agent.Image=gcr.io/${GOOGLE_PROJECT_ID}/jnlp-slave \
+    --set Agent.Image=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/jnlp-slave \
     --set Agent.ImageTag=v1 \
     --set Master.AdminPassword=systex \
     --set Master.GoogleProjectId=${GOOGLE_PROJECT_ID} \
+    --set Master.AwsAccountId=${AWS_ACCOUNT_ID} \
+    --set Master.AwsRegion=${AWS_REGION} \
     --set configmap.docker.config_json=docker-registry-key \
     devops-hands-on/jenkins > /dev/null 2>&1 && echo "完成"
 }
