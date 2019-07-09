@@ -132,3 +132,23 @@ spec:
         host: {{ .Values.jenkins.svc }}
         port:
           number: {{ .Values.jenkins.port }}
+---
+# KeyCloak
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Values.keycloak.name }}
+spec:
+  hosts:
+  - "{{ .Values.keycloak.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
+  gateways:
+  - {{ .Values.gateway.name }}
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: {{ .Values.keycloak.svc }}
+        port:
+          number: {{ .Values.keycloak.port }}
