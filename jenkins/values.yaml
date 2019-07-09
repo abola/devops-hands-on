@@ -8,7 +8,12 @@ cloud:
   provider:
     gcp: false
     aws: false
-  
+
+# .docker/config_json file to ConfigMap
+configmap:
+  docker:
+    config_json:
+
 ## Overrides for generated resource names
 # See templates/_helpers.tpl
 # nameOverride:
