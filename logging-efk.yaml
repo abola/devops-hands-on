@@ -58,6 +58,13 @@ spec:
       labels:
         app: elasticsearch
     spec:
+      initContainers:
+      - name: elasticsearch-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod","-R","777", "/usr/share/elasticsearch/data"]
+        volumeMounts:
+        - name: elasticsearch-data
+          mountPath: /usr/share/elasticsearch/data  
       containers:
       #- image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.1
       #- image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.1
@@ -98,19 +105,19 @@ metadata:
     app: fluentd-es
 spec:
   ports:
-  - name: fluentd-tcp
+  - name: fluentd-tcp-forward
     port: 8888
     protocol: TCP
     targetPort: 8888
-  - name: fluentd-udp
+  - name: fluentd-udp-forward
     port: 8888
     protocol: UDP
     targetPort: 8888
-  - name: fluentd-tcp
+  - name: fluentd-tcp-http
     port: 24224
     protocol: TCP
     targetPort: 24224
-  - name: fluentd-udp
+  - name: fluentd-udp-http
     port: 24224
     protocol: UDP
     targetPort: 24224
