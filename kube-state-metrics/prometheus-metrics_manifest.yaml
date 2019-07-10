@@ -81,7 +81,7 @@ spec:
       serviceAccountName: prometheus-metrics-alertmanager
       containers:
         - name: prometheus-alertmanager
-          image: marketplace.gcr.io/google/prometheus/alertmanager:2.2
+          image: 348053640110.dkr.ecr.us-west-2.amazonaws.com/prometheus/alertmanager:2.2
           imagePullPolicy: Always
           args:
             - --config.file=/etc/config/alertmanager.yml
@@ -393,7 +393,7 @@ spec:
       serviceAccountName: prometheus-metrics-grafana
       initContainers:
           - name: "init-chmod-data"
-            image: marketplace.gcr.io/google/prometheus/debian9:2.2
+            image: 348053640110.dkr.ecr.us-west-2.amazonaws.com/prometheus/debian9:2.2
             imagePullPolicy: "IfNotPresent"
             command: ["chmod", "777", "/var/lib/grafana"]
             volumeMounts:
@@ -401,7 +401,7 @@ spec:
               mountPath: "/var/lib/grafana"
       containers:
         - name: grafana
-          image: marketplace.gcr.io/google/prometheus/grafana:2.2
+          image: 348053640110.dkr.ecr.us-west-2.amazonaws.com/prometheus/grafana:2.2
           imagePullPolicy: Always
           volumeMounts:
             - name: config
@@ -496,7 +496,7 @@ spec:
       serviceAccountName: prometheus-metrics-kube-state-metrics
       containers:
       - name: kube-state-metrics
-        image: marketplace.gcr.io/google/prometheus/kubestatemetrics:2.2
+        image: 348053640110.dkr.ecr.us-west-2.amazonaws.com/prometheus/kubestatemetrics:2.2
         imagePullPolicy: Always
         ports:
         - name: http-metrics
@@ -577,7 +577,7 @@ spec:
       serviceAccountName: prometheus-metrics-node-exporter
       containers:
         - name: prometheus-node-exporter
-          image: marketplace.gcr.io/google/prometheus/nodeexporter:2.2
+          image: 348053640110.dkr.ecr.us-west-2.amazonaws.com/prometheus/nodeexporter:2.2
           imagePullPolicy: Always
           args:
             - --path.procfs=/host/proc
@@ -1191,7 +1191,7 @@ spec:
       serviceAccountName: prometheus-metrics-prometheus
       initContainers:
       - name: "init-chown-data"
-        image: marketplace.gcr.io/google/prometheus/debian9:2.2
+        image: 348053640110.dkr.ecr.us-west-2.amazonaws.com/prometheus/debian9:2.2
         imagePullPolicy: Always
         command: ["chown", "-R", "65534:65534", "/data"]
         volumeMounts:
@@ -1200,7 +1200,7 @@ spec:
           subPath: ""
       containers:
         - name: prometheus-server
-          image: marketplace.gcr.io/google/prometheus:2.2
+          image: 348053640110.dkr.ecr.us-west-2.amazonaws.com/prometheus:2.2
           imagePullPolicy: "IfNotPresent"
           args:
             - --config.file=/etc/config/prometheus.yaml
