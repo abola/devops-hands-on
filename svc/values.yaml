@@ -9,33 +9,40 @@ istio:
     name: bookinfo
     svc: productpage.default.svc.cluster.local
     port: 9080
+    dns:
   # Jaeger UI
   jaeger:
     name: jaeger
     svc: jaeger-query.istio-system.svc.cluster.local
     port: 16686
+    dns:
   # Kiali UI
   kiali:
     name: kiali
     svc: kiali.istio-system.svc.cluster.local
     port: 20001
+    dns:
   # Grafana
   grafana:
     name: grafana
     svc: prometheus-metrics-grafana.logging.svc.cluster.local
     port: 3000
+    dns:
   # Kibana
   kibana:
     name: kibana
     svc: kibana.logging.svc.cluster.local
     port: 5601
+    dns:
 # Jenkins CI/CD
 jenkins:
   name: jenkins
   svc: jenkins.default.svc.cluster.local
   port: 80
+  dns:
 # keycloak
 keycloak:
   name: keycloak
   svc: keycloak-http.default.svc.cluster.local
   port: 80  
+  dns:
