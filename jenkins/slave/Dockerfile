@@ -44,7 +44,11 @@ RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_
     && tar zxvf helm-v2.13.1-linux-amd64.tar.gz \
     && mv linux-amd64/helm /usr/bin \
     && mv linux-amd64/tiller /usr/bin \
-    && rm -rf /opt/helm* /opt/linux-amd64* 
+    && rm -rf /opt/helm* /opt/linux-amd64* \
+
+    # Add NPM support
+    && apk add nodejs \
+    && curl -L http://npmjs.org/install.sh | sh
 
 ENV PATH=$PATH:/opt/apache-maven-3.6.1/bin 
     
