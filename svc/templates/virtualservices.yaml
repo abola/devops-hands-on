@@ -20,12 +20,12 @@ metadata:
   name: {{ .Values.istio.bookinfo.name }}
 spec:
   hosts:
-{{-if .Values.istio.ingressgateway.ip }}
+{{- if .Values.istio.ingressgateway.ip }}
   - "{{ .Values.istio.bookinfo.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
-{{-end }}
-{{-if .Values.istio.bookinfo.dns }}
+{{- end }}
+{{- if .Values.istio.bookinfo.dns }}
   - "{{ .Values.istio.bookinfo.dns }}"
-{{-end }}  
+{{- end }}  
   gateways:
   - {{ .Values.gateway.name }}
   http:
@@ -45,12 +45,12 @@ metadata:
   name: {{ .Values.istio.jaeger.name }}
 spec:
   hosts:
-{{-if .Values.istio.ingressgateway.ip }}
+{{- if .Values.istio.ingressgateway.ip }}
   - "{{ .Values.istio.jaeger.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
-{{-end }}
-{{-if .Values.istio.bookinfo.dns }}
+{{- end }}
+{{- if .Values.istio.bookinfo.dns }}
   - "{{ .Values.istio.jaeger.dns }}"
-{{-end }}    
+{{- end }}    
   gateways:
   - {{ .Values.gateway.name }}
   http:
@@ -70,12 +70,12 @@ metadata:
   name: {{ .Values.istio.kiali.name }}
 spec:
   hosts:
-{{-if .Values.istio.ingressgateway.ip }}
+{{- if .Values.istio.ingressgateway.ip }}
   - "{{ .Values.istio.kiali.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
-{{-end }}
-{{-if .Values.istio.kiali.dns }}
+{{- end }}
+{{- if .Values.istio.kiali.dns }}
   - "{{ .Values.istio.kiali.dns }}"
-{{-end }}     
+{{- end }}     
   gateways:
   - {{ .Values.gateway.name }}
   http:
@@ -95,12 +95,12 @@ metadata:
   name: {{ .Values.istio.grafana.name }}
 spec:
   hosts:
-{{-if .Values.istio.ingressgateway.ip }}
+{{- if .Values.istio.ingressgateway.ip }}
   - "{{ .Values.istio.grafana.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
-{{-end }}
-{{-if .Values.istio.grafana.dns }}
+{{- end }}
+{{- if .Values.istio.grafana.dns }}
   - "{{ .Values.istio.grafana.dns }}"
-{{-end }}    
+{{- end }}    
   gateways:
   - {{ .Values.gateway.name }}
   http:
@@ -120,12 +120,12 @@ metadata:
   name: {{ .Values.istio.kibana.name }}
 spec:
   hosts:
-{{-if .Values.istio.ingressgateway.ip }}
+{{- if .Values.istio.ingressgateway.ip }}
   - "{{ .Values.istio.kibana.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
-{{-end }}
-{{-if .Values.istio.kibana.dns }}
+{{- end }}
+{{- if .Values.istio.kibana.dns }}
   - "{{ .Values.istio.kibana.dns }}"
-{{-end }}      
+{{- end }}      
   gateways:
   - {{ .Values.gateway.name }}
   http:
@@ -145,12 +145,12 @@ metadata:
   name: {{ .Values.jenkins.name }}
 spec:
   hosts:
-{{-if .Values.istio.ingressgateway.ip }}
+{{- if .Values.istio.ingressgateway.ip }}
   - "{{ .Values.jenkins.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
-{{-end }}
-{{-if .Values.jenkins.dns }}
+{{- end }}
+{{- if .Values.jenkins.dns }}
   - "{{ .Values.jenkins.dns }}"
-{{-end }}       
+{{- end }}       
   gateways:
   - {{ .Values.gateway.name }}
   http:
@@ -170,12 +170,12 @@ metadata:
   name: {{ .Values.keycloak.name }}
 spec:
   hosts:
-{{-if .Values.istio.ingressgateway.ip }}
+{{- if .Values.istio.ingressgateway.ip }}
   - "{{ .Values.keycloak.name }}.{{ .Values.istio.ingressgateway.ip }}.nip.io"
-{{-end }}
-{{-if .Values.keycloak.dns }}
+{{- end }}
+{{- if .Values.keycloak.dns }}
   - "{{ .Values.keycloak.dns }}"
-{{-end }}     
+{{- end }}     
   gateways:
   - {{ .Values.gateway.name }}
   http:
