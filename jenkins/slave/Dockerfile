@@ -48,7 +48,9 @@ RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_
 
     # Add NPM support
     && apk add nodejs \
-    && curl -L http://npmjs.org/install.sh | sh
+    && curl -L http://npmjs.org/install.sh | sh \
+    && npm install -g typescript \
+    && npm install -g @angular/cli
 
 ENV PATH=$PATH:/opt/apache-maven-3.6.1/bin 
     
