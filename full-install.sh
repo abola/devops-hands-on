@@ -359,7 +359,7 @@ rm -rf ~/.my-env
 rm -rf key.json
 rm -rf devops-hands-on
 
-git clone https://github.com/abola/devops-hands-on.git
+git clone -b day3 https://github.com/abola/devops-hands-on.git
 
 initParameter
 createProject
