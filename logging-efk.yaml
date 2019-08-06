@@ -104,11 +104,11 @@ metadata:
     app: fluentd-es
 spec:
   ports:
-  - name: fluentd-tcp
+  - name: fluentd-forward-tcp
     port: 8888
     protocol: TCP
     targetPort: 8888
-  - name: fluentd-udp
+  - name: fluentd-forward-udp
     port: 8888
     protocol: UDP
     targetPort: 8888
