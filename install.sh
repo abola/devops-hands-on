@@ -19,7 +19,7 @@ initParameter() {
   
   # GOOGLE_ZONE
   if [ -z $GOOGLE_ZONE  ]; then
-    GOOGLE_ZONE=asia-east1-a
+    GOOGLE_ZONE=asia-east1-b
     echo "  未定義 GOOGLE_ZONE.         使用預設值.......(GOOGLE_ZONE=$GOOGLE_ZONE)"
   else
     echo "  系統參數 GOOGLE_ZONE        已設定...........(GOOGLE_ZONE=$GOOGLE_ZONE)" 
@@ -35,7 +35,7 @@ initParameter() {
 
   # GOOGLE_GCE_MACHINE
   if [ -z $GOOGLE_GCE_MACHINE  ]; then
-    GOOGLE_GCE_MACHINE=n1-standard-1
+    GOOGLE_GCE_MACHINE=e2-standard-4
     echo "  未定義 GOOGLE_GCE_MACHINE.  使用預設值.......(GOOGLE_GCE_MACHINE=$GOOGLE_GCE_MACHINE)"
   fi
 
@@ -80,12 +80,6 @@ createComputeEngine() {
   GOOGLE_COMPUTE_SERVICE_ACCOUNT=$(gcloud iam service-accounts list | grep "$DEFAULT_SERVICE_ACCOUNT" | awk -F" " '{print $6}')
   echo "($GOOGLE_COMPUTE_SERVICE_ACCOUNT)"
 
-  printf "  尋找映像檔($GOOGLE_GCE_IMAGE)專案路徑..."
-  GOOGLE_GCE_IMAGES_LIST=$(gcloud compute images list | grep "${GOOGLE_GCE_IMAGE}" | awk -F" " '{print $1 "," $2}')
-  GOOGLE_GCE_IMAGE=$(echo ${GOOGLE_GCE_IMAGES_LIST} | awk -F"," '{print $1}')
-  GOOGLE_GCE_IMAGE_PROJECT=$(echo ${GOOGLE_GCE_IMAGES_LIST} | awk -F"," '{print $2}')
-  echo "($GOOGLE_GCE_IMAGE_PROJECT/$GOOGLE_GCE_IMAGE)"
-
   printf "  開始建立 VM($GOOGLE_GCE_NAME)..."
   gcloud compute --project=$GOOGLE_PROJECT_ID \
     instances create $GOOGLE_GCE_NAME \
@@ -95,12 +89,16 @@ createComputeEngine() {
     --network-tier=PREMIUM \
     --maintenance-policy=MIGRATE \
     --service-account=$GOOGLE_COMPUTE_SERVICE_ACCOUNT \
-    --image=$GOOGLE_GCE_IMAGE \
-    --image-project=$GOOGLE_GCE_IMAGE_PROJECT \
-    --boot-disk-size=10GB \
+    --image=ubuntu-1804-bionic-v20200521  \
+    --image-project=ubuntu-os-cloud  \
+    --boot-disk-size=20GB \
     --boot-disk-type=pd-standard \
     --boot-disk-device-name=GCE-$GOOGLE_GCE_NAME \
     --tags=http-server,https-server \
+    --no-shielded-secure-boot \
+    --shielded-vtpm \
+    --shielded-integrity-monitoring \
+    --reservation-affinity=any \
     --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append \
     > /dev/null 2>&1 && \
     echo "完成"
