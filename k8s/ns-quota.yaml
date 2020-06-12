@@ -2,9 +2,10 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: mem-cpu-demo
+  namespaces: my-ds
 spec:
   hard:
-    requests.cpu: "400m"
-    requests.memory: 256Mi
-    limits.cpu: "500m"
-    limits.memory: 1Gi
+    requests.cpu: "500m" #最小需求
+    requests.memory: "1Gi"
+    limits.cpu: "1500m" #最大需求限制
+    limits.memory: "1Gi"
