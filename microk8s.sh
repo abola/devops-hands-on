@@ -41,7 +41,7 @@ echo "系統參數設定中 ... "
 sudo microk8s.kubectl patch $(sudo microk8s.kubectl get user.management.cattle.io -l authz.management.cattle.io/bootstrapping=admin-user -o name) --type='json' -p '[{"op":"replace","path":"/mustChangePassword","value":false},{"op":"replace","path":"/password","value":"$2a$10$7BhfjPOlS.KyLj81XMLWkO/ZH7JqeB1xeBmJzygZCHbD7Xni9Exy2"}]'
 
 sudo microk8s.enable metrics-server
-sudo git clone https://github.com/abola/2day_calalogs.git
+sudo git clone https://github.com/abola/2day_catalogs.git
 sudo microk8s.kubectl apply -f https://raw.githubusercontent.com/weaveworks/flagger/master/artifacts/flagger/crd.yaml
 sudo microk8s.kubectl annotate daemonset nginx-ingress-microk8s-controller -n ingress prometheus.io/port=10254 prometheus.io/scrape=true
 sudo microk8s.helm3 install flagger -n default --set=externalIp=${EXTERNAL_IP} ./2day_catalogs/charts/flagger-server/0.27.0/
