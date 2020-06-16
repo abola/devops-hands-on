@@ -46,8 +46,7 @@ sudo microk8s.kubectl apply -f https://raw.githubusercontent.com/weaveworks/flag
 #sudo microk8s.kubectl annotate daemonset nginx-ingress-microk8s-controller -n ingress prometheus.io/port=10254 prometheus.io/scrape=true
 sudo microk8s.kubectl create ns flagger
 sudo microk8s.helm3 install flagger -n flagger --set=externalIp=${EXTERNAL_IP} ./2day_catalogs/charts/flagger-server/0.27.0/
-sudo microk8s.kubectl patch daemonset nginx-ingress-microk8s-controller -n ingress  --patch "$(curl -
-s https://raw.githubusercontent.com/abola/2day_example_python/master/patch/nginx-ingress.yaml)"
+sudo microk8s.kubectl patch daemonset nginx-ingress-microk8s-controller -n ingress --patch "$(curl -s https://raw.githubusercontent.com/abola/2day_example_python/master/patch/nginx-ingress.yaml)"
 sudo microk8s.kubectl patch daemonset nginx-ingress-microk8s-controller -n ingress --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/ports/-", "value": {"containerPort": 10254}}]'
 sudo microk8s.kubectl wait --for=condition=ready pods -l name=nginx-ingress-microk8s -n ingress
 
