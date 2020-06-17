@@ -50,6 +50,7 @@ sudo microk8s.helm3 install flagger -n flagger --set=externalIp=${EXTERNAL_IP} .
 #sudo microk8s.kubectl patch daemonset nginx-ingress-microk8s-controller -n ingress --type='json' -p='[{"op": "add", "path": "/spec/template/metadata/annotations/prometheus.io~1scrape", "value": "true"}]'
 sudo microk8s.kubectl patch daemonset nginx-ingress-microk8s-controller -n ingress --patch "$(curl -s https://raw.githubusercontent.com/abola/2day_example_python/master/patch/nginx-ingress.yaml)"
 sudo microk8s.kubectl patch daemonset nginx-ingress-microk8s-controller -n ingress --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/ports/-", "value": {"containerPort": 10254}}]'
+sleep 5
 sudo microk8s.kubectl wait --for=condition=ready pods -l name=nginx-ingress-microk8s -n ingress
 
 echo "----------------------------------------"
